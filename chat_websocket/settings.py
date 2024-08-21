@@ -40,12 +40,10 @@ INSTALLED_APPS = [
     'corsheaders',
     'apps.chatbox',
     'channels',
-    'channels_postgres',
 ]
 
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -95,16 +93,16 @@ ASGI_APPLICATION = 'chat_websocket.asgi.application'
 #         'NAME': BASE_DIR / 'db.sqlite3',
 #     }
 # }
-DATABASES = {
-    'default': {
-        'ENGINE':'django.db.backends.postgresql',
-        'NAME': 'cm00qasaw004r9rle0gk81upu',
-        'USER': 'cm00qasaw004p9rlefdw0995v',
-        'PASSWORD': 'leP0H0JYvyfKrfDojyqObcbZ',
-        'HOST': '62.72.21.137',
-        'PORT': 9003,
-    }
-}
+# DATABASES = {
+#     'default': {
+#         'ENGINE':'django.db.backends.postgresql',
+#         'NAME': 'cm00qasaw004r9rle0gk81upu',
+#         'USER': 'cm00qasaw004p9rlefdw0995v',
+#         'PASSWORD': 'leP0H0JYvyfKrfDojyqObcbZ',
+#         'HOST': '62.72.21.137',
+#         'PORT': 9003,
+#     }
+# }
 
 # CHANNEL_LAYERS = {
 #     "default": {
@@ -160,7 +158,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Dhaka'
 
 USE_I18N = True
 
