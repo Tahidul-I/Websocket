@@ -1,8 +1,6 @@
-# chatbox/consumers.py
-
 import json
 from channels.generic.websocket import AsyncWebsocketConsumer
-
+from datetime import datetime
 class ChatConsumer(AsyncWebsocketConsumer):
     async def connect(self):
         self.room_name = self.scope['url_route']['kwargs']['room_name']
@@ -24,19 +22,23 @@ class ChatConsumer(AsyncWebsocketConsumer):
         text_data_json = json.loads(text_data)
         message = text_data_json['message']
         sender = text_data_json.get('sender', 'Anonymous')
+        timestamp = text_data_json.get('timestamp', datetime.now().isoformat())
         await self.channel_layer.group_send(
             self.room_group_name,
             {
                 'type': 'chat_message',
                 'message': message,
-                'sender': sender
+                'sender': sender,
+                'timestamp': timestamp
             }
         )
 
     async def chat_message(self, event):
         message = event['message']
         sender = event['sender']
+        timestamp = event['timestamp']
         await self.send(text_data=json.dumps({
             'message': message,
-            'sender': sender
+            'sender': sender,
+            'timestamp': timestamp
         }))
