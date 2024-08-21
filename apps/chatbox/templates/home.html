@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat Room</title>
+</head>
+<body>
+    <h1>Chat Room</h1>
+    <textarea id="chat-log" cols="100" rows="20" readonly></textarea><br>
+    <input id="message-input" type="text" size="100" autofocus><br>
+    <button id="send-button">Send</button>
+
+    <script>
+        // app/ChatRoom/static/chatroom/chat.js
+
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('DOM fully loaded and parsed');
+            
+            const roomName = 'testroom'; 
+            console.log(roomName) // Change as needed
+            const chatSocket = new WebSocket(
+                'ws://' + window.location.host + '/ws/chat/' + roomName + '/'
+            );
+
+            chatSocket.onopen = function(e) {
+                console.log('WebSocket connection opened');
+            };
+
+            chatSocket.onmessage = function(e) {
+                console.log('Received message from WebSocket:', e.data);
+                const data = JSON.parse(e.data);
+                document.querySelector('#chat-log').value += (data.message + '\n');
+            };
+
+            chatSocket.onclose = function(e) {
+                console.error('Chat socket closed unexpectedly:', e);
+            };
+
+            chatSocket.onerror = function(e) {
+                console.error('WebSocket error:', e);
+            };
+
+            document.querySelector('#send-button').onclick = function(e) {
+                console.log('Send button clicked');
+                const messageInputDom = document.querySelector('#message-input');
+                const message = messageInputDom.value;
+                if (message.trim() !== '') {
+                    console.log('Sending message:', message);
+                    chatSocket.send(JSON.stringify({
+                        'message': message
+                    }));
+                    messageInputDom.value = '';
+                } else {
+                    console.log('Message input is empty');
+                }
+            };
+        });
+    </script>
+</body>
+</html>
