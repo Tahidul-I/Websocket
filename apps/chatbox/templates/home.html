@@ -20,7 +20,7 @@
             const roomName = 'testroom'; 
             console.log(roomName) // Change as needed
             const chatSocket = new WebSocket(
-                'ws://' + window.location.host + '/ws/chat/' + roomName + '/'
+                'wss://' + window.location.host + '/ws/chat/' + roomName + '/'
             );
 
             chatSocket.onopen = function(e) {
