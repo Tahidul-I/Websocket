@@ -28,9 +28,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
         message = text_data_json['message']
         sender = text_data_json.get('sender', 'Anonymous')
         timestamp = text_data_json.get('timestamp', datetime.now().isoformat())
-        is_new_room = text_data_json.get('is_new_room', False)
-        print("******************************************************************CHECK UPDATE *************************")
-        print(is_new_room)
+
         await self.channel_layer.group_send(
             self.room_group_name,
             {
@@ -41,20 +39,15 @@ class ChatConsumer(AsyncWebsocketConsumer):
             }
         )
         
-         # If a new room was created, notify all admins
-        print("******************************************************************2nd CHECK UPDATE *************************")
-        print(is_new_room)
-        if is_new_room == True:
-                print("************************* TRUE *************************************")
-                print(self.room_name)
-                await self.channel_layer.group_send(
-                    'admin_group',  # A common group for all admins
-                    {
-                        'type': 'new_chat_room',
-                        'room_name': self.room_name,
-                        'timestamp': timestamp
-                    }
-                )
+         # If a new room was created, notify all admin
+        await self.channel_layer.group_send(
+            'admin_group',  # A common group for all admins
+            {
+                'type': 'user_message_updated',
+                'room_name':'admin_group',
+                'timestamp': timestamp
+            }
+        )
 
     async def chat_message(self, event):
         message = event['message']
@@ -67,7 +60,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
         }))
 
     async def new_chat_room(self, event):
-        room_name = event['room_name']
+        room_name = 'admin_group'
         timestamp = event['timestamp']
         await self.send(text_data=json.dumps({
             'type': 'new_chat_room',
