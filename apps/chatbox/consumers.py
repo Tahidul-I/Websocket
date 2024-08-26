@@ -45,7 +45,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
                     'admin_group',  # A common group for all admins
                     {
                         'type': 'new_chat_room',
-                        'room_name': self.room_name,
+                        'room_name': 'admin_group',
                         'timestamp': timestamp
                     }
                 )
@@ -65,6 +65,6 @@ class ChatConsumer(AsyncWebsocketConsumer):
         timestamp = event['timestamp']
         await self.send(text_data=json.dumps({
             'type': 'new_chat_room',
-            'room_name': room_name,
+            'room_name': 'admin_group',
             'timestamp': timestamp
         }))

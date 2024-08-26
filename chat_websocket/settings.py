@@ -84,38 +84,18 @@ TEMPLATES = [
 # WSGI_APPLICATION = 'chat_websocket.wsgi.application'
 
 ASGI_APPLICATION = 'chat_websocket.asgi.application'
-# Database
-# https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-# }
-# DATABASES = {
-#     'default': {
-#         'ENGINE':'django.db.backends.postgresql',
-#         'NAME': 'cm00qasaw004r9rle0gk81upu',
-#         'USER': 'cm00qasaw004p9rlefdw0995v',
-#         'PASSWORD': 'leP0H0JYvyfKrfDojyqObcbZ',
-#         'HOST': '62.72.21.137',
-#         'PORT': 9003,
-#     }
-# }
+DATABASES = {
+    'default': {
+        'ENGINE':'django.db.backends.postgresql',
+        'NAME': 'cm00qasaw004r9rle0gk81upu',
+        'USER': 'cm00qasaw004p9rlefdw0995v',
+        'PASSWORD': 'leP0H0JYvyfKrfDojyqObcbZ',
+        'HOST': '62.72.21.137',
+        'PORT': 9003,
+    }
+}
 
-# CHANNEL_LAYERS = {
-#     "default": {
-#         "BACKEND": "channels_postgres.core.PostgresChannelLayer",  # Correct backend for PostgreSQL
-#         "CONFIG": {
-#             "NAME": "cm00qasaw004r9rle0gk81upu",
-#             "USER": "cm00qasaw004p9rlefdw0995v",
-#             "PASSWORD": "leP0H0JYvyfKrfDojyqObcbZ",
-#             "HOST": "62.72.21.137",  # Your PostgreSQL server address
-#             "PORT": 9003,           # Default PostgreSQL port
-#         },
-#     },
-# }
 CHANNEL_LAYERS = {
     'default': {
         'BACKEND': 'channels_redis.core.RedisChannelLayer',
@@ -126,16 +106,6 @@ CHANNEL_LAYERS = {
         },
     },
 }
-# CHANNEL_LAYERS = {
-#     "default": {
-#         "BACKEND": "channels_redis.core.RedisChannelLayer",
-#         "CONFIG": {
-#             "hosts": [('127.0.0.1', 6379)],  # Redis server address and port
-#         },
-#     },
-# }
-# Password validation
-# https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
     {
