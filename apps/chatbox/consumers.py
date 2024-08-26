@@ -23,7 +23,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
         message = text_data_json['message']
         sender = text_data_json.get('sender', 'Anonymous')
         timestamp = text_data_json.get('timestamp', datetime.now().isoformat())
-        is_new_room = text_data_json.get('is_new_room', False)
+        is_new_room = False
         print("******************************************************************CHECK UPDATE *************************")
         print(is_new_room)
         await self.channel_layer.group_send(
@@ -39,16 +39,16 @@ class ChatConsumer(AsyncWebsocketConsumer):
          # If a new room was created, notify all admins
         print("******************************************************************2nd CHECK UPDATE *************************")
         print(is_new_room)
-        if is_new_room == True or is_new_room==False:
-                print("************************* TRUE *************************************")
-                await self.channel_layer.group_send(
-                    'admin_group',  # A common group for all admins
-                    {
-                        'type': 'new_chat_room',
-                        'room_name': 'admin_group',
-                        'timestamp': timestamp
-                    }
-                )
+        if is_new_room==False:
+            print("************************* TRUE *************************************")
+            await self.channel_layer.group_send(
+                'admin_group',  # A common group for all admins
+                {
+                    'type': 'new_chat_room',
+                    'room_name': 'admin_group',
+                    'timestamp': timestamp
+                }
+            )
 
     async def chat_message(self, event):
         message = event['message']
