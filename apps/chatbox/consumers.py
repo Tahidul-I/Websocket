@@ -4,12 +4,17 @@ from datetime import datetime
 class ChatConsumer(AsyncWebsocketConsumer):
     async def connect(self):
         self.room_name = self.scope['url_route']['kwargs']['room_name']
-        self.room_group_name = f'chat_{self.room_name}'
+        if self.room_name == 'admin_group':
+            self.room_group_name = 'admin_group'
+        else:
+            self.room_group_name = f'chat_{self.room_name}'
+
 
         await self.channel_layer.group_add(
             self.room_group_name,
             self.channel_name
         )
+
         await self.accept()
 
     async def disconnect(self, close_code):
@@ -41,11 +46,12 @@ class ChatConsumer(AsyncWebsocketConsumer):
         print(is_new_room)
         if is_new_room == True:
                 print("************************* TRUE *************************************")
+                print(self.room_name)
                 await self.channel_layer.group_send(
                     'admin_group',  # A common group for all admins
                     {
                         'type': 'new_chat_room',
-                        'room_name': 'admin_group',
+                        'room_name': self.room_name,
                         'timestamp': timestamp
                     }
                 )
@@ -65,6 +71,6 @@ class ChatConsumer(AsyncWebsocketConsumer):
         timestamp = event['timestamp']
         await self.send(text_data=json.dumps({
             'type': 'new_chat_room',
-            'room_name': 'admin_group',
+            'room_name': room_name,
             'timestamp': timestamp
         }))
